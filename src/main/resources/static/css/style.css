@@ -1,0 +1,19 @@
+
+.input-group>.input-group-prepend {
+    flex: 0 0 16%;
+}
+.input-group .input-group-text {
+    width: 100%;
+}
+
+.form-error{
+    text-align: left;
+    display: flex;
+    color: red;
+    font-size: small;
+    font-style: italic;
+}
+
+ul {
+    list-style-type: none;
+}
