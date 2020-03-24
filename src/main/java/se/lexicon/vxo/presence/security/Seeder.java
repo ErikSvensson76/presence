@@ -10,7 +10,6 @@ import se.lexicon.vxo.presence.entity.AppRole;
 import se.lexicon.vxo.presence.entity.AppUser;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,8 +32,8 @@ public class Seeder {
     @Transactional(rollbackFor = RuntimeException.class)
     public void seed(){
         List<AppRole> appRoles = new ArrayList<>(Arrays.asList(
-                new AppRole("USER"),
-                new AppRole("ADMIN")
+                new AppRole("APP_USER"),
+                new AppRole("APP_ADMIN")
         ));
 
         appRoles = (List<AppRole>) appRoleRepository.saveAll(appRoles);

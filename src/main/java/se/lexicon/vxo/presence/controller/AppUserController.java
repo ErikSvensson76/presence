@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import se.lexicon.vxo.presence.data.AppUserRepository;
 import se.lexicon.vxo.presence.dto.app_user.AppUserFormDto;
+import se.lexicon.vxo.presence.entity.AppUser;
 
 import javax.validation.Valid;
 
@@ -47,12 +48,14 @@ public class AppUserController {
             return "register";
         }
 
-
-
         return "index";
+
+
+
+
     }
 
-    @GetMapping("/login")
+    @GetMapping("/users/login")
     public String getLoginForm(){
         return "login-form";
     }
