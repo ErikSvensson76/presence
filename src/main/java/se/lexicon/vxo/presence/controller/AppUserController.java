@@ -49,10 +49,6 @@ public class AppUserController {
         }
 
         return "index";
-
-
-
-
     }
 
     @GetMapping("/users/login")
