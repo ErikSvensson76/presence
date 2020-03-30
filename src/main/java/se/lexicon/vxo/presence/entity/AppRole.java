@@ -15,9 +15,9 @@ public class AppRole {
     )
     private String roleId;
     @Column(unique = true)
-    private String role;
+    private UserRole role;
 
-    public AppRole(String role){
+    public AppRole(UserRole role){
         this.role = role;
     }
 
@@ -28,7 +28,7 @@ public class AppRole {
         return roleId;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 

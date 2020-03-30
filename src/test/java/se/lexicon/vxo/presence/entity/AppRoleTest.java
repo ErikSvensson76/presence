@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppRoleTest {
-    public static final String ROLE = "TEST_ROLE";
+    public static final UserRole ROLE = UserRole.APP_USER;
     private AppRole testObject;
 
     @BeforeEach
@@ -31,7 +31,7 @@ public class AppRoleTest {
         String toString = testObject.toString();
         assertTrue(
                 toString.contains("null") &&
-                        toString.contains(ROLE)
+                        toString.contains(ROLE.name())
         );
     }
 }

@@ -36,7 +36,7 @@ public class AppUserTest {
     @Test
     void given_set_of_1_AppRole_setRoles_success(){
         Collection<AppRole> appRoles = new HashSet<>(Arrays.asList(
-                new AppRole("TEST_ROLE")
+                new AppRole(UserRole.APP_USER)
         ));
         testObject.setRoles(appRoles);
 

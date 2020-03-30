@@ -8,11 +8,13 @@ import se.lexicon.vxo.presence.data.AppRoleRepository;
 import se.lexicon.vxo.presence.data.AppUserRepository;
 import se.lexicon.vxo.presence.entity.AppRole;
 import se.lexicon.vxo.presence.entity.AppUser;
+import se.lexicon.vxo.presence.entity.UserRole;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Seeder {
@@ -31,10 +33,9 @@ public class Seeder {
     @PostConstruct
     @Transactional(rollbackFor = RuntimeException.class)
     public void seed(){
-        List<AppRole> appRoles = new ArrayList<>(Arrays.asList(
-                new AppRole("APP_USER"),
-                new AppRole("APP_ADMIN")
-        ));
+        List<AppRole> appRoles = Arrays.stream(UserRole.values())
+                .map(AppRole::new)
+                .collect(Collectors.toList());
 
         appRoles = (List<AppRole>) appRoleRepository.saveAll(appRoles);
 

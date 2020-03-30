@@ -18,7 +18,7 @@ public class AppUserPrincipal implements UserDetails {
         this.appUser = appUser;
         Collection<GrantedAuthority> authoritySet = new HashSet<>();
         for(AppRole role : appUser.getRoles()){
-            authoritySet.add(new SimpleGrantedAuthority(role.getRole()));
+            authoritySet.add(new SimpleGrantedAuthority(role.getRole().name()));
         }
         authorities = authoritySet;
     }
