@@ -17,3 +17,12 @@
 ul {
     list-style-type: none;
 }
+
+.btn .btn-danger{
+    background-color: red; !important;
+}
+
+.navbar-brand img{
+    border-radius: 3px;
+    height: 62px;
+}
