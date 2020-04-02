@@ -1,6 +1,7 @@
 package se.lexicon.vxo.presence.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Profile(value = "!test")
 public class Seeder {
 
     private AppRoleRepository appRoleRepository;
@@ -29,6 +31,7 @@ public class Seeder {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @PostConstruct
     @Transactional(rollbackFor = RuntimeException.class)
