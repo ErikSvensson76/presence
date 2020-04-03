@@ -18,13 +18,6 @@ import java.util.Objects;
 @Entity
 public class AppCalendarDay implements Comparable<AppCalendarDay>{
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private String dayId;
-    @Column(unique = true)
     private LocalDate date;
     private int year;
     private Month month;
@@ -33,31 +26,26 @@ public class AppCalendarDay implements Comparable<AppCalendarDay>{
 
 
     public AppCalendarDay(LocalDate date) {
-        this.dayId = null;
         this.date = date;
         year = date.getYear();
         weekDay = date.getDayOfWeek();
         month = date.getMonth();
-        TemporalField weekOfYear = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
+        TemporalField weekOfYear = WeekFields.of(Locale.forLanguageTag("sv_SE")).weekOfWeekBasedYear();
         yearWeek = date.get(weekOfYear);
     }
 
     public AppCalendarDay(){}
-
-    public String getDayId() {
-        return dayId;
-    }
 
     public LocalDate getDate() {
         return date;
     }
 
     public String getWeekDay() {
-        return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("sv_SE"));
     }
 
     public String getMonth() {
-        return date.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        return date.getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("sv_SE"));
     }
 
     public int getYearWeek() {
@@ -73,13 +61,12 @@ public class AppCalendarDay implements Comparable<AppCalendarDay>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppCalendarDay that = (AppCalendarDay) o;
-        return Objects.equals(dayId, that.dayId) &&
-                Objects.equals(date, that.date);
+        return Objects.equals(getDate(), that.getDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dayId, date);
+        return Objects.hash(getDate());
     }
 
     @Override
@@ -90,8 +77,7 @@ public class AppCalendarDay implements Comparable<AppCalendarDay>{
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("AppCalendarDay{");
-        sb.append("dayId='").append(dayId).append('\'');
-        sb.append(", date=").append(date);
+        sb.append("date=").append(date);
         sb.append(", year=").append(year);
         sb.append(", month=").append(month);
         sb.append(", yearWeek=").append(yearWeek);
