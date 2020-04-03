@@ -16,7 +16,6 @@ public class AppCalendarDayTest {
     @Test
     void given_20200101_successfully_create_object() {
         AppCalendarDay testObject = new AppCalendarDay(_2020_01_01);
-        assertNull(testObject.getDayId());
         assertEquals(_2020_01_01, testObject.getDate());
         assertEquals(2020, testObject.getYear());
         assertEquals(1, testObject.getYearWeek());
