@@ -26,7 +26,7 @@ public class AppCalendarDay implements Comparable<AppCalendarDay>{
         year = date.getYear();
         weekDay = date.getDayOfWeek();
         month = date.getMonth();
-        TemporalField woy = WeekFields.of(Locale.forLanguageTag("sv_SE")).weekOfWeekBasedYear();
+
 
         yearWeek = YearWeek.from(date).getWeek();
     }
@@ -38,11 +38,11 @@ public class AppCalendarDay implements Comparable<AppCalendarDay>{
     }
 
     public String getWeekDay() {
-        return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("sv_SE"));
+        return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault());
     }
 
     public String getMonth() {
-        return date.getMonth().getDisplayName(TextStyle.FULL, Locale.forLanguageTag("sv_SE"));
+        return date.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
     }
 
     public int getYearWeek() {
