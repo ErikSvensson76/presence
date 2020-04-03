@@ -14,11 +14,11 @@ public interface AppCalendarDayRepository extends JpaRepository<AppCalendarDay, 
     @Query("SELECT day FROM AppCalendarDay day WHERE day.date = :date")
     Optional<AppCalendarDay> findByDate(@Param("date") LocalDate date);
 
-    @Query("SELECT day FROM AppCalendarDay day WHERE day.month = :month")
-    TreeSet<AppCalendarDay> findDaysInMonth(@Param("month") Month month);
+    @Query("SELECT day FROM AppCalendarDay day WHERE day.month = :month AND day.year = :year")
+    TreeSet<AppCalendarDay> findDaysInMonth(@Param("month") Month month,@Param("year") int year);
 
-    @Query("SELECT day FROM AppCalendarDay day WHERE day.yearWeek = :weekNumber")
-    TreeSet<AppCalendarDay> findByWeekNumber(@Param("weekNumber") int weekNumber);
+    @Query("SELECT day FROM AppCalendarDay day WHERE day.yearWeek = :weekNumber AND day.year = :year")
+    TreeSet<AppCalendarDay> findByWeekNumber(@Param("weekNumber") int weekNumber, @Param("year") int year);
 
     @Query("SELECT day FROM AppCalendarDay day WHERE day.year = :year")
     TreeSet<AppCalendarDay> findAllDaysInYear(@Param("year") int year);

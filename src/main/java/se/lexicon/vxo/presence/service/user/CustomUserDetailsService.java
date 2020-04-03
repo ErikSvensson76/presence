@@ -1,4 +1,4 @@
-package se.lexicon.vxo.presence.service;
+package se.lexicon.vxo.presence.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,9 +23,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByEmailIgnoreCase(email).orElseThrow(() -> new UsernameNotFoundException("Could not find user with email: " + email));
 
-        AppUserPrincipal principal = new AppUserPrincipal(user);
 
-        return principal;
+
+        return new AppUserPrincipal(user);
     }
 
 }
