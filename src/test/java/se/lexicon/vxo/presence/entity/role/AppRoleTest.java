@@ -1,7 +1,9 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.role;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.lexicon.vxo.presence.entity.role.AppRole;
+import se.lexicon.vxo.presence.entity.role.UserRole;
 
 import static org.junit.jupiter.api.Assertions.*;
 

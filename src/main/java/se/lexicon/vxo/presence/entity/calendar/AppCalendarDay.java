@@ -1,14 +1,10 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.calendar;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.threeten.extra.YearWeek;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.Month;
+import java.time.*;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
@@ -25,16 +21,17 @@ public class AppCalendarDay implements Comparable<AppCalendarDay>{
     private DayOfWeek weekDay;
 
 
-    public AppCalendarDay(LocalDate date) {
+    AppCalendarDay(LocalDate date) {
         this.date = date;
         year = date.getYear();
         weekDay = date.getDayOfWeek();
         month = date.getMonth();
-        TemporalField weekOfYear = WeekFields.of(Locale.forLanguageTag("sv_SE")).weekOfWeekBasedYear();
-        yearWeek = date.get(weekOfYear);
+        TemporalField woy = WeekFields.of(Locale.forLanguageTag("sv_SE")).weekOfWeekBasedYear();
+
+        yearWeek = YearWeek.from(date).getWeek();
     }
 
-    public AppCalendarDay(){}
+    AppCalendarDay(){}
 
     public LocalDate getDate() {
         return date;

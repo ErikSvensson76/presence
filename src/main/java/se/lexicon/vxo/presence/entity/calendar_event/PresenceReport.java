@@ -1,6 +1,8 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.calendar_event;
 
 import org.hibernate.annotations.GenericGenerator;
+import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
+import se.lexicon.vxo.presence.entity.user.AppUser;
 
 import javax.persistence.*;
 import java.util.Objects;

@@ -3,8 +3,8 @@ package se.lexicon.vxo.presence.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import se.lexicon.vxo.presence.entity.AppRole;
-import se.lexicon.vxo.presence.entity.AppUser;
+import se.lexicon.vxo.presence.entity.role.AppRole;
+import se.lexicon.vxo.presence.entity.user.AppUser;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.user;
 
 
 import org.hibernate.annotations.GenericGenerator;
