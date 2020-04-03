@@ -3,7 +3,7 @@ package se.lexicon.vxo.presence.data;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import se.lexicon.vxo.presence.entity.AppCalendarDay;
+import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 
 import java.time.LocalDate;
 import java.time.Month;

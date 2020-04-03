@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import se.lexicon.vxo.presence.dto.app_user.AppUserFormDto;
-import se.lexicon.vxo.presence.entity.AppUser;
+import se.lexicon.vxo.presence.entity.user.AppUser;
 import se.lexicon.vxo.presence.service.AppUserService;
 
 import javax.validation.Valid;

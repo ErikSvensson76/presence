@@ -1,4 +1,4 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.calendar_event;
 
 public enum Presence {
     NV("Närvarande"),

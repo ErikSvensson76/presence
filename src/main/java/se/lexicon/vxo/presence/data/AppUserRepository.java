@@ -1,7 +1,7 @@
 package se.lexicon.vxo.presence.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import se.lexicon.vxo.presence.entity.AppUser;
+import se.lexicon.vxo.presence.entity.user.AppUser;
 
 import java.util.Optional;
 

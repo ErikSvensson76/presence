@@ -1,7 +1,8 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.user;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.lexicon.vxo.presence.entity.user.ContactInformation;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static se.lexicon.vxo.presence.text.ApplicationMessages.DEFAULT_NOT_SET;

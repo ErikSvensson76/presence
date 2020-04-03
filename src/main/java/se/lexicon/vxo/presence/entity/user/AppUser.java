@@ -1,6 +1,7 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.user;
 
 import org.hibernate.annotations.GenericGenerator;
+import se.lexicon.vxo.presence.entity.role.AppRole;
 
 import javax.persistence.*;
 import java.util.Collection;

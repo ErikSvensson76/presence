@@ -1,7 +1,10 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.user;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.lexicon.vxo.presence.entity.role.AppRole;
+import se.lexicon.vxo.presence.entity.role.UserRole;
+import se.lexicon.vxo.presence.entity.user.AppUser;
 
 import java.util.Arrays;
 import java.util.Collection;

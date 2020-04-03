@@ -1,10 +1,6 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.calendar;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.DayOfWeek;
 import java.time.LocalDate;

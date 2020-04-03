@@ -1,9 +1,9 @@
-package se.lexicon.vxo.presence.entity;
+package se.lexicon.vxo.presence.entity.calendar;
 
 import org.junit.jupiter.api.Test;
+import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 
 import java.time.LocalDate;
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

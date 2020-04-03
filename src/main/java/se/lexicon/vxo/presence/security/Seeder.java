@@ -7,12 +7,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.vxo.presence.data.AppRoleRepository;
 import se.lexicon.vxo.presence.data.AppUserRepository;
-import se.lexicon.vxo.presence.entity.AppRole;
-import se.lexicon.vxo.presence.entity.AppUser;
-import se.lexicon.vxo.presence.entity.UserRole;
+import se.lexicon.vxo.presence.entity.role.AppRole;
+import se.lexicon.vxo.presence.entity.user.AppUser;
+import se.lexicon.vxo.presence.entity.role.UserRole;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

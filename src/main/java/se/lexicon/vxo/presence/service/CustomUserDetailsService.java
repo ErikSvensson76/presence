@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import se.lexicon.vxo.presence.data.AppUserRepository;
-import se.lexicon.vxo.presence.entity.AppUser;
+import se.lexicon.vxo.presence.entity.user.AppUser;
 import se.lexicon.vxo.presence.security.AppUserPrincipal;
 
 @Service
