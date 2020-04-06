@@ -1,15 +1,16 @@
 package se.lexicon.vxo.presence.dto.app_user;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import static se.lexicon.vxo.presence.text.ValidationMessages.*;
 
-public class AppUserFormDto {
-
-
+/**
+ * This class is is used when updating an AppUsers general information
+ * like <b>email, firstName, lastName, street, zipCode, city, homeNumber, mobileNumber, gitHubLink and linkedInUrl</b>.
+ *
+ */
+public class AppUserUpdateForm {
+    @NotBlank
     private String appUserId;
     @NotBlank(message = NOT_EMPTY)
     @Email(regexp = "^(\\D)+(\\w)*((\\.(\\w)+)?)+@(\\D)+(\\w)*((\\.(\\D)+(\\w)*)+)?(\\.)[a-z]{2,}$", flags = Pattern.Flag.CASE_INSENSITIVE , message = EMAIL_FORMAT_ERROR)
@@ -20,18 +21,13 @@ public class AppUserFormDto {
     @NotBlank(message = NOT_EMPTY)
     @Size(min = 2, max = 255, message = NAME_SIZE_ERROR)
     private String lastName;
-    @NotBlank(message = NOT_EMPTY)
-    @Pattern(regexp = "^\\S{1}(?:.){4,}\\S$", flags = Pattern.Flag.CASE_INSENSITIVE, message = BAD_PASSWORD)
-    private String password;
-    @NotBlank(message = NOT_EMPTY)
-    private String passwordConfirmation;
     private String street;
     private String zipCode;
     private String city;
     private String homeNumber;
     private String mobileNumber;
     private String gitHubLink;
-    private String linkedInURL;
+    private String linkedInUrl;
 
     public String getAppUserId() {
         return appUserId;
@@ -63,22 +59,6 @@ public class AppUserFormDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPasswordConfirmation() {
-        return passwordConfirmation;
-    }
-
-    public void setPasswordConfirmation(String passwordConfirmation) {
-        this.passwordConfirmation = passwordConfirmation;
     }
 
     public String getStreet() {
@@ -129,12 +109,11 @@ public class AppUserFormDto {
         this.gitHubLink = gitHubLink;
     }
 
-    public String getLinkedInURL() {
-        return linkedInURL;
+    public String getLinkedInUrl() {
+        return linkedInUrl;
     }
 
-    public void setLinkedInURL(String linkedInURL) {
-        this.linkedInURL = linkedInURL;
+    public void setLinkedInUrl(String linkedInUrl) {
+        this.linkedInUrl = linkedInUrl;
     }
-
 }

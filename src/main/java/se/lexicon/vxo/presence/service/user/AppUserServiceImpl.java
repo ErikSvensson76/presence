@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.vxo.presence.data.AppRoleRepository;
 import se.lexicon.vxo.presence.data.AppUserRepository;
 import se.lexicon.vxo.presence.dto.app_user.AppUserFormDto;
+import se.lexicon.vxo.presence.dto.app_user.AppUserUpdateForm;
 import se.lexicon.vxo.presence.entity.role.AppRole;
 import se.lexicon.vxo.presence.entity.user.AppUser;
 import se.lexicon.vxo.presence.entity.user.ContactInformation;
@@ -60,4 +61,37 @@ public class AppUserServiceImpl implements AppUserService {
     public Optional<AppUser> findByEmail(String email) {
         return appUserRepository.findByEmailIgnoreCase(email);
     }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public AppUser update(AppUserUpdateForm dto){
+        if(dto.getAppUserId() == null) throw new IllegalArgumentException("Entity is not yet stored in the database");
+        AppUser appUser = appUserRepository.findById(dto.getAppUserId()).orElseThrow(() -> new AppResourceNotFoundException("Could not find requested resource"));
+        if(!appUser.getFirstName().equals(dto.getFirstName())) appUser.setFirstName(dto.getFirstName());
+        if(!appUser.getLastName().equals(dto.getLastName())) appUser.setLastName(dto.getFirstName());
+        if(!appUser.getEmail().equals(dto.getEmail())) appUser.setEmail(dto.getEmail());
+        if(appUser.getContactInformation() != null){
+            ContactInformation contactInformation = appUser.getContactInformation();
+            if(!contactInformation.getCity().equals(dto.getCity())) contactInformation.setCity(dto.getCity()); //City
+            if(!contactInformation.getGitHubLink().equals(dto.getGitHubLink())) contactInformation.setGitHubLink(dto.getGitHubLink()); //Github
+            if(!contactInformation.getLinkedInURL().equals(dto.getLinkedInUrl())) contactInformation.setLinkedInURL(dto.getLinkedInUrl()); //Linkedin
+            if(!contactInformation.getHomeNumber().equals(dto.getHomeNumber())) contactInformation.setHomeNumber(dto.getHomeNumber()); //home number
+            if(!contactInformation.getMobileNumber().equals(dto.getMobileNumber())) contactInformation.setMobileNumber(dto.getMobileNumber()); //mobile number
+            if(!contactInformation.getStreet().equals(dto.getStreet())) contactInformation.setStreet(dto.getStreet()); //street
+            if(!contactInformation.getZipCode().equals(dto.getZipCode())) contactInformation.setZipCode(dto.getZipCode()); //zip code
+            appUser.setContactInformation(contactInformation);
+        }
+        return appUserRepository.save(appUser);
+    }
+
+    @Override
+    public AppUser save(AppUser appUser){
+        return appUserRepository.save(appUser);
+    }
+
+    @Override
+    public Optional<AppUser> findById(String appUserId){
+        return appUserRepository.findById(appUserId);
+    }
+
 }
