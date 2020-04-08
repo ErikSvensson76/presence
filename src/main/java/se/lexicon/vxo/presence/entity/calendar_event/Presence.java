@@ -17,11 +17,4 @@ public enum Presence {
         return status;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Presence{");
-        sb.append("status='").append(status).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
 }
