@@ -9,14 +9,15 @@ import se.lexicon.vxo.presence.data.AppUserRepository;
 import se.lexicon.vxo.presence.dto.app_user.AppUserFormDto;
 import se.lexicon.vxo.presence.dto.app_user.AppUserUpdateForm;
 import se.lexicon.vxo.presence.entity.role.AppRole;
+import se.lexicon.vxo.presence.entity.role.UserRole;
 import se.lexicon.vxo.presence.entity.user.AppUser;
 import se.lexicon.vxo.presence.entity.user.ContactInformation;
-import se.lexicon.vxo.presence.entity.role.UserRole;
-import se.lexicon.vxo.presence.exception.AppResourceNotFoundException;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
+import static se.lexicon.vxo.presence.exception.Exceptions.appResourceNotFoundException;
 
 @Service
 public class AppUserServiceImpl implements AppUserService {
@@ -42,7 +43,7 @@ public class AppUserServiceImpl implements AppUserService {
                 passwordEncoder.encode(appUserFormDto.getPassword())
         );
         Set<AppRole> roleSet = new HashSet<>();
-        roleSet.add(appRoleRepository.findAppRoleByRole(UserRole.APP_USER).orElseThrow(() -> new AppResourceNotFoundException("Could not find requested resource")));
+        roleSet.add(appRoleRepository.findAppRoleByRole(UserRole.APP_USER).orElseThrow(appResourceNotFoundException()));
         ContactInformation contactInformation = new ContactInformation();
         contactInformation.setStreet(appUserFormDto.getStreet());
         contactInformation.setZipCode(appUserFormDto.getZipCode());
@@ -66,7 +67,7 @@ public class AppUserServiceImpl implements AppUserService {
     @Transactional(rollbackFor = RuntimeException.class)
     public AppUser update(AppUserUpdateForm dto){
         if(dto.getAppUserId() == null) throw new IllegalArgumentException("Entity is not yet stored in the database");
-        AppUser appUser = appUserRepository.findById(dto.getAppUserId()).orElseThrow(() -> new AppResourceNotFoundException("Could not find requested resource"));
+        AppUser appUser = appUserRepository.findById(dto.getAppUserId()).orElseThrow(appResourceNotFoundException());
         if(!appUser.getFirstName().equals(dto.getFirstName())) appUser.setFirstName(dto.getFirstName());
         if(!appUser.getLastName().equals(dto.getLastName())) appUser.setLastName(dto.getFirstName());
         if(!appUser.getEmail().equals(dto.getEmail())) appUser.setEmail(dto.getEmail());

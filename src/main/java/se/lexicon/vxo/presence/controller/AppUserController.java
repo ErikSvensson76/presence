@@ -1,21 +1,29 @@
 package se.lexicon.vxo.presence.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import se.lexicon.vxo.presence.dto.app_user.AppUserFormDto;
+import se.lexicon.vxo.presence.dto.app_user.AppUserUpdateForm;
+import se.lexicon.vxo.presence.entity.role.UserRole;
 import se.lexicon.vxo.presence.entity.user.AppUser;
+import se.lexicon.vxo.presence.security.AppUserPrincipal;
 import se.lexicon.vxo.presence.service.user.AppUserService;
 
 import javax.validation.Valid;
 
+import static se.lexicon.vxo.presence.exception.Exceptions.appResourceNotFoundException;
+import static se.lexicon.vxo.presence.text.ExceptionMessages.ACCESS_DENIED_MSG;
+
 @Controller
 public class AppUserController {
+
 
     private AppUserService appUserService;
 
@@ -28,7 +36,7 @@ public class AppUserController {
     public String getRegister(Model model){
         AppUserFormDto form = new AppUserFormDto();
         model.addAttribute("form", form);
-        return "register";
+        return "user/register";
     }
 
     @PostMapping("/users/process")
@@ -45,17 +53,65 @@ public class AppUserController {
         }
 
         if(bindingResult.hasErrors()){
-            return "register";
+            return "user/register";
         }
 
         AppUser newUser = appUserService.registerNew(form);
 
-        return "index";
+        return "redirect:/users/login/";
     }
 
     @GetMapping("/users/login")
     public String getLoginForm(){
-        return "login-form";
+        return "login/login-form";
     }
+
+    @GetMapping("users/{email}")
+    public String findByUsername(@PathVariable("email") String email, @RequestParam(name = "action", defaultValue = "details") String action, @AuthenticationPrincipal AppUserPrincipal principal, Model model){
+        if(principal == null) throw new AccessDeniedException(ACCESS_DENIED_MSG);
+        if(email.equals(principal.getUsername()) || isAdmin(principal)){
+            switch (action){
+                case "details":
+                    model.addAttribute("user", appUserService.findByEmail(email).orElseThrow(appResourceNotFoundException()));
+                    return "/user/user-details";
+                case "update":
+                    model.addAttribute("form", buildForm(appUserService.findByEmail(email).orElseThrow(appResourceNotFoundException())));
+                    return "/user/user-update-form";
+                default:
+                    throw new IllegalArgumentException("Invalid call action: "+action);
+            }
+        }else {
+            throw new AccessDeniedException(ACCESS_DENIED_MSG);
+        }
+    }
+
+    private boolean isAdmin(AppUserPrincipal appUserPrincipal){
+        boolean isAdmin = false;
+        for(GrantedAuthority authority : appUserPrincipal.getAuthorities()){
+            if(authority.getAuthority().equals(UserRole.APP_ADMIN.name())){
+                isAdmin = true;
+                break;
+            }
+        }
+        return isAdmin;
+    }
+
+    private AppUserUpdateForm buildForm(AppUser appUser){
+        AppUserUpdateForm form = new AppUserUpdateForm();
+        form.setAppUserId(appUser.getAppUserId());
+        form.setEmail(appUser.getEmail());
+        form.setFirstName(appUser.getFirstName());
+        form.setLastName(appUser.getLastName());
+        form.setStreet(appUser.getContactInformation().getStreet());
+        form.setZipCode(appUser.getContactInformation().getZipCode());
+        form.setCity(appUser.getContactInformation().getCity());
+        form.setHomeNumber(appUser.getContactInformation().getHomeNumber());
+        form.setMobileNumber(appUser.getContactInformation().getMobileNumber());
+        form.setGitHubLink(appUser.getContactInformation().getGitHubLink());
+        form.setLinkedInUrl(appUser.getContactInformation().getLinkedInURL());
+        return form;
+    }
+
+
 
 }

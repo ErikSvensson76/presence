@@ -73,7 +73,7 @@ public class AppControllerTest {
                     .param("mobileNumber", "070123456")
                     .param("gitHubLink", "https://github.com/ErikSvensson76")
                     .param("linkedInURL", "https://www.linkedin.com/in/erik-svensson-474a64184/?originalSubdomain=se"))
-                .andExpect(status().isOk())
+                .andExpect(status().is3xxRedirection())
                 .andExpect(model().hasNoErrors());
         em.flush();
     }

@@ -10,6 +10,7 @@ import se.lexicon.vxo.presence.data.AppUserRepository;
 import se.lexicon.vxo.presence.entity.role.AppRole;
 import se.lexicon.vxo.presence.entity.user.AppUser;
 import se.lexicon.vxo.presence.entity.role.UserRole;
+import se.lexicon.vxo.presence.entity.user.ContactInformation;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -50,6 +51,8 @@ public class Seeder {
                 true,
                 appRoles
         );
+        ContactInformation contactInformation = new ContactInformation();
+        appUser.setContactInformation(contactInformation);
         appUserRepository.save(appUser);
     }
 }

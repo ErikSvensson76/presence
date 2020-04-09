@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UserDetailsHeader</title>
+</head>
+<body>
+<div th:fragment="user-details-header" class="card-header">
+    <ul class="nav nav-pills card-header-pills">
+        <li class="nav-item">
+            <div th:if="${param.isEmpty()}">
+                <a class="nav-link active" href="#">Details</a>
+            </div>
+            <div th:unless="${param.isEmpty()}">
+                <a class="nav-link" th:href="@{/users/{email}(email = ${email})}">Details</a>
+            </div>
+        </li>
+        <li>
+            <div th:if="${param.edit}">
+                <a class="nav-link active" href="#">Edit</a>
+            </div>
+            <div th:unless="${param.edit}">
+                <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'update')}">Edit</a>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
