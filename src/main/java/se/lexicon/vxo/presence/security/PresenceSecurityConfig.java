@@ -17,7 +17,13 @@ public class PresenceSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("email")
                 .loginPage("/users/login")
                 .loginProcessingUrl("/users/login")
-                .permitAll();
+                .permitAll()
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/errors/access-denied");
+
+
+
 
 
 

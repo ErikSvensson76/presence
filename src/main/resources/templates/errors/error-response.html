@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}" />
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta charset="UTF-8">
+    <title>Exception</title>
+</head>
+<body>
+<nav th:replace="navbar :: navigation" />
+    <div class="container">
+        <div class="card mt-4 border-dark">
+            <h4 class="bg-dark text-danger card-header">Ett undantag inträffade:</h4>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col"><span>Namn</span></th>
+                            <th scope="col"><span>Felkod</span></th>
+                            <th scope="col"><span>Meddelande</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span th:text="${errorMap.name}">InternalServerError</span></td>
+                            <td><span th:text="${errorMap.code}">500</span></td>
+                            <td><span th:text="${errorMap.message}">Ett internt fel inträffade</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -56,7 +56,7 @@ public class AppUserController {
             return "user/register";
         }
 
-        AppUser newUser = appUserService.registerNew(form);
+        appUserService.registerNew(form);
 
         return "redirect:/users/login/";
     }

@@ -29,7 +29,11 @@ public class AppControllerTest {
     @Autowired
     private TestEntityManager em;
 
+
+
     private MockMvc mockMvc;
+
+
 
     @BeforeEach
     void setUp() {
@@ -43,14 +47,14 @@ public class AppControllerTest {
     public void given_nothing_getLoginForm_success() throws Exception {
         mockMvc.perform(get("/users/login"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("login-form"));
+                .andExpect(view().name("login/login-form"));
     }
 
     @Test
     public void given_empty_model_getRegister_success() throws Exception{
         mockMvc.perform(get("/users/register"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("register"))
+                .andExpect(view().name("user/register"))
                 .andExpect(model().attributeExists("form"));
     }
 
@@ -97,6 +101,4 @@ public class AppControllerTest {
                 .andExpect(model().attributeHasErrors("form"))
                 .andExpect(model().attributeHasFieldErrors("form", "email", "firstName", "lastName", "passwordConfirmation"));
     }
-
-
 }
