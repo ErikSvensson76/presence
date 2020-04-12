@@ -51,8 +51,28 @@ public class Seeder {
                 true,
                 appRoles
         );
+
+        AppUser appUser2 = new AppUser(
+                null,
+                "user_vxo@lexicon.se",
+                "Erik",
+                "Svensson",
+                passwordEncoder.encode("user"),
+                true,
+                appRoles.stream().filter(appRole -> appRole.getRole() == (UserRole.APP_USER)).collect(Collectors.toSet())
+        );
+
         ContactInformation contactInformation = new ContactInformation();
+        ContactInformation userContact = new ContactInformation();
+        userContact.setStreet("Friskhetsvägen 2");
+        userContact.setZipCode("352 63");
+        userContact.setCity("Växjö");
+        userContact.setMobileNumber("070-52555297");
+        userContact.setGitHubLink("https://github.com/ErikSvensson76");
+        userContact.setLinkedInURL("https://www.linkedin.com/in/erik-svensson-474a64184/?originalSubdomain=se");
         appUser.setContactInformation(contactInformation);
+        appUser2.setContactInformation(userContact);
         appUserRepository.save(appUser);
+        appUserRepository.save(appUser2);
     }
 }
