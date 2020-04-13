@@ -85,6 +85,38 @@ public class AppUserController {
         }
     }
 
+    @PostMapping("users/{email}")
+    public String processUpdate(
+            @Valid @ModelAttribute("form") AppUserUpdateForm form,
+            BindingResult bindingResult,
+            @PathVariable("email") String email,
+            @RequestParam(name = "action", defaultValue = "update") String action,
+            @AuthenticationPrincipal AppUserPrincipal caller)
+    {
+        if(caller == null) throw new AccessDeniedException(ACCESS_DENIED_MSG);
+        if(email.equals(caller.getUsername()) || isAdmin(caller)){
+            if(!email.equals(form.getEmail())){
+                if(appUserService.findByEmail(form.getEmail()).isPresent()){
+                    FieldError error = new FieldError("form","email", "Upptagen email adress");
+                    bindingResult.addError(error);
+                }
+            }
+
+            if(bindingResult.hasErrors()){
+                System.err.println("Has errors");
+                bindingResult.getAllErrors().forEach(System.err::println);
+                return "/user/user-update-form";
+            }
+            AppUser updated = appUserService.update(form);
+            System.out.println(updated);
+            return "redirect:/users/"+updated.getEmail();
+
+        }else {
+            throw new AccessDeniedException(ACCESS_DENIED_MSG);
+        }
+
+    }
+
     private boolean isAdmin(AppUserPrincipal appUserPrincipal){
         boolean isAdmin = false;
         for(GrantedAuthority authority : appUserPrincipal.getAuthorities()){

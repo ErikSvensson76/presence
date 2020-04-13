@@ -9,18 +9,18 @@
     <ul class="nav nav-pills card-header-pills">
         <li class="nav-item">
             <div th:if="${param.isEmpty()}">
-                <a class="nav-link active" href="#">Details</a>
+                <a class="nav-link active" href="#">Se detaljer</a>
             </div>
             <div th:unless="${param.isEmpty()}">
-                <a class="nav-link" th:href="@{/users/{email}(email = ${email})}">Details</a>
+                <a class="nav-link" th:href="@{/users/{email}(email = ${email})}">Se detaljer</a>
             </div>
         </li>
-        <li>
-            <div th:if="${param.edit}">
-                <a class="nav-link active" href="#">Edit</a>
+        <li class="nav-item">
+            <div th:unless="${param.action == null}">
+                <a class="nav-link active" href="#">Ändra</a>
             </div>
-            <div th:unless="${param.edit}">
-                <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'update')}">Edit</a>
+            <div th:if="${param.action == null}">
+                <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'update')}">Ändra</a>
             </div>
         </li>
     </ul>

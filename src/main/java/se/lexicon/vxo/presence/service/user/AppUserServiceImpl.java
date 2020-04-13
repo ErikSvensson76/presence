@@ -69,7 +69,7 @@ public class AppUserServiceImpl implements AppUserService {
         if(dto.getAppUserId() == null) throw new IllegalArgumentException("Entity is not yet stored in the database");
         AppUser appUser = appUserRepository.findById(dto.getAppUserId()).orElseThrow(appResourceNotFoundException());
         if(!appUser.getFirstName().equals(dto.getFirstName())) appUser.setFirstName(dto.getFirstName());
-        if(!appUser.getLastName().equals(dto.getLastName())) appUser.setLastName(dto.getFirstName());
+        if(!appUser.getLastName().equals(dto.getLastName())) appUser.setLastName(dto.getLastName());
         if(!appUser.getEmail().equals(dto.getEmail())) appUser.setEmail(dto.getEmail());
         if(appUser.getContactInformation() != null){
             ContactInformation contactInformation = appUser.getContactInformation();
