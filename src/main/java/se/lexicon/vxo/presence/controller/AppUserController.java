@@ -108,7 +108,9 @@ public class AppUserController {
                 return "/user/user-update-form";
             }
             AppUser updated = appUserService.update(form);
-            System.out.println(updated);
+            if (email.equals(caller.getUsername())) caller.setUserName(appUserService.update(form).getEmail());
+            else appUserService.update(form);
+
             return "redirect:/users/"+updated.getEmail();
 
         }else {

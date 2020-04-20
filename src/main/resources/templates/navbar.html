@@ -30,10 +30,10 @@
 
         <form action="#" class="form-inline" method="post">
             <div sec:authorize="isAuthenticated()">
-                <button class="btn btn-outline-danger" type="submit" value="Logout">Logout</button>
+                <a class="btn btn-outline-danger" th:href="@{/logout}" value="Logout">Logout</a>
             </div>
             <div sec:authorize="isAnonymous()">
-                <a class="btn btn-outline-danger" th:href="@{/users/login}" href="#" value="Login">Login</a>
+                <a class="btn btn-outline-danger" th:href="@{/users/login}"  value="Login">Login</a>
             </div>
         </form>
     </nav>

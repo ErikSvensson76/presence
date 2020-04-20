@@ -42,6 +42,10 @@ public class AppUserPrincipal implements UserDetails {
         return appUser.getEmail();
     }
 
+    public void setUserName(String email){
+        appUser.setEmail(email);
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

@@ -19,6 +19,12 @@ public class PresenceSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/users/login")
                 .permitAll()
                 .and()
+                .logout()
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/users/login?logout")
+                .and()
                 .exceptionHandling()
                 .accessDeniedPage("/errors/access-denied");
 
