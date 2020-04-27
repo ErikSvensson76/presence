@@ -18,6 +18,12 @@
             <div class="card-body">
                 <h5 class="card-header">Användar profil:</h5>
                     <div class="d-md-flex col-md-12 flex-column mt-2 mb-2">
+                        <div  th:if="${user.profileImage != null}" class="frame mb-2">
+                            <img th:src="@{'/image/'+${user.profileImage.id}}">
+                        </div>
+                        <div th:if="${user.profileImage == null}" class="frame mb-2">
+                            <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'upload')}">Ladda upp bild</a>
+                        </div>
                         <div class="d-md-flex flex-row">
                             <div class="col-md-2 bg-light shadow-sm" >
                                 <span>Email:</span>

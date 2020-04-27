@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.vxo.presence.dto.app_user.AppUserFormDto;
 import se.lexicon.vxo.presence.dto.app_user.AppUserUpdateForm;
+import se.lexicon.vxo.presence.dto.app_user.UploadImageForm;
 import se.lexicon.vxo.presence.entity.role.UserRole;
 import se.lexicon.vxo.presence.entity.user.AppUser;
 import se.lexicon.vxo.presence.security.AppUserPrincipal;
@@ -70,6 +71,7 @@ public class AppUserController {
     public String findByUsername(@PathVariable("email") String email, @RequestParam(name = "action", defaultValue = "details") String action, @AuthenticationPrincipal AppUserPrincipal principal, Model model){
         if(principal == null) throw new AccessDeniedException(ACCESS_DENIED_MSG);
         if(email.equals(principal.getUsername()) || isAdmin(principal)){
+            model.addAttribute("action",action);
             switch (action){
                 case "details":
                     model.addAttribute("user", appUserService.findByEmail(email).orElseThrow(appResourceNotFoundException()));
@@ -77,6 +79,10 @@ public class AppUserController {
                 case "update":
                     model.addAttribute("form", buildForm(appUserService.findByEmail(email).orElseThrow(appResourceNotFoundException())));
                     return "/user/user-update-form";
+                case "upload":
+                    model.addAttribute("form",new UploadImageForm());
+                    model.addAttribute("user", appUserService.findByEmail(email).orElseThrow(appResourceNotFoundException()));
+                    return "/user/upload";
                 default:
                     throw new IllegalArgumentException("Invalid call action: "+action);
             }
@@ -107,11 +113,8 @@ public class AppUserController {
                 bindingResult.getAllErrors().forEach(System.err::println);
                 return "/user/user-update-form";
             }
-            AppUser updated = appUserService.update(form);
-            if (email.equals(caller.getUsername())) caller.setUserName(appUserService.update(form).getEmail());
-            else appUserService.update(form);
-
-            return "redirect:/users/"+updated.getEmail();
+            caller.setUsername(appUserService.update(form).getEmail());
+            return "redirect:/users/"+caller.getUsername();
 
         }else {
             throw new AccessDeniedException(ACCESS_DENIED_MSG);

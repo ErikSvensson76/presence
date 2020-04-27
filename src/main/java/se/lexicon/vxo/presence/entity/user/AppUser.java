@@ -23,7 +23,6 @@ public class AppUser {
     private String firstName;
     private String lastName;
     private String password;
-
     @ManyToMany(
             cascade = CascadeType.MERGE,
             fetch = FetchType.EAGER
@@ -41,6 +40,12 @@ public class AppUser {
     )
     @JoinColumn(name = "contact_id")
     private ContactInformation contactInformation;
+    @OneToOne(
+            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private ProfileImage profileImage;
     private boolean enabled;
 
     public AppUser(String appUserId, String email, String firstName, String lastName, String password, boolean enabled, Collection<AppRole> roles){
@@ -53,6 +58,8 @@ public class AppUser {
         setRoles(roles);
     }
 
+
+
     public AppUser(String email, String firstName, String lastName, String password){
         this(null, email, firstName,lastName,password, true, null);
     }
@@ -60,6 +67,14 @@ public class AppUser {
     public AppUser() {
     }
 
+
+    public ProfileImage getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(ProfileImage profileImage) {
+        this.profileImage = profileImage;
+    }
 
     public String getAppUserId() {
         return appUserId;

@@ -42,7 +42,7 @@ public class AppUserPrincipal implements UserDetails {
         return appUser.getEmail();
     }
 
-    public void setUserName(String email){
+    public void setUsername(String email){
         appUser.setEmail(email);
     }
 

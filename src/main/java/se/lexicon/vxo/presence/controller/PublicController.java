@@ -9,4 +9,5 @@ public class PublicController {
     public String indexPage(){
         return "index";
     }
+
 }

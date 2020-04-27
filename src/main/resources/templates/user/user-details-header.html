@@ -8,19 +8,27 @@
 <div th:fragment="user-details-header" class="card-header">
     <ul class="nav nav-pills card-header-pills">
         <li class="nav-item">
-            <div th:if="${param.isEmpty()}">
+            <div th:if="${action.equals('details')}">
                 <a class="nav-link active" href="#">Se detaljer</a>
             </div>
-            <div th:unless="${param.isEmpty()}">
+            <div th:unless="${action.equals('details')}">
                 <a class="nav-link" th:href="@{/users/{email}(email = ${email})}">Se detaljer</a>
             </div>
         </li>
         <li class="nav-item">
-            <div th:unless="${param.action == null}">
+            <div th:if="${action.equals('update')}">
                 <a class="nav-link active" href="#">Ändra</a>
             </div>
-            <div th:if="${param.action == null}">
+            <div th:if="${!action.equals('update')}">
                 <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'update')}">Ändra</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <div th:if="${action.equals('upload')}">
+                <a class="nav-link active" href="#">Ladda upp fil</a>
+            </div>
+            <div th:if="${!action.equals('upload')}">
+                <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'upload')}">Ladda upp fil</a>
             </div>
         </li>
     </ul>
