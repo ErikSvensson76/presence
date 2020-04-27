@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<nav th:replace="navbar :: navigation"></nav>
+    <div class="container">
+        <div class="card mt-4 mb-3 border-dark">
+            <h4 class="bg-dark text-danger card-header">Login</h4>
+            <div class="card-body">
+                <form th:action="@{/users/login}" method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class=input-group-text>Email:</span>
+                        </div>
+                        <input class="form-control" type="email" id="email" name="email" placeholder="Skriv in din email" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class=input-group-text>Password:</span>
+                        </div>
+                        <input class="form-control" type="password" id="password" name="password" placeholder="Skriv in ditt lösenord" />
+                    </div>
+                    <button type="submit" class="btn btn-dark text-danger">Logga in</button>
+                </form>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+</body>
+</html>

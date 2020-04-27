@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="se" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:replace="navbar :: navigation" />
+<div class="container">
+
+    <div class="card mt-4 mb-3 border-dark">
+        <h4 class="bg-dark text-danger card-header">Registrera:</h4>
+        <div class="card-body">
+        <form th:action="@{/users/process}" action="#" method="post" th:object="${form}">
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Email:</span>
+                        </div>
+                        <input class="form-control" type="email" id="email" placeholder="Ange en giltig emailaddress" th:field="*{email}"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('email')}">
+                        <ul class="p-0">
+                            <li  th:each="err : ${#fields.errors('email')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Förnamn:</span>
+                        </div>
+                        <input type="text" id="firstName" th:field="*{firstName}" placeholder="Ange ditt förnamn" class="form-control" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('firstName')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('firstName')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Efternamn:</span>
+                        </div>
+                        <input type="text" id="lastName" th:field="*{lastName}" placeholder="Ange ditt efternamn" class="form-control" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('lastName')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('lastName')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Lösenord:</span>
+                        </div>
+                        <input class="form-control" type="password" id="password" th:field="*{password}" placeholder="Ange ditt lösenord"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('password')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('password')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Bekräftelse:</span>
+                        </div>
+                    <input class="form-control" type="password" id="password_confirm" th:field="*{passwordConfirmation}" placeholder="Bekräfta ditt lösenord"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('passwordConfirmation')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('passwordConfirmation')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <h5 class="bg-dark text-danger p-2 rounded">Adress:</h5>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text">Gatuadress:</span>
+                        </div>
+                        <input type="text" id="street" th:field="*{street}" placeholder="Ange din gatuaddress" class="form-control"  />
+                    </div>
+                    <div th:if="${#fields.hasErrors('street')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('street')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Postnummer:</span>
+                        </div>
+                    <input type="text" id="zip-code" th:field="*{zipCode}" placeholder="Ange ditt postnummer" class="form-control"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('zipCode')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('zipCode')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Stad:</span>
+                        </div>
+                        <input type="text" id="city" th:field="*{city}" placeholder="Ange din bostadsort" class="form-control"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('city')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('city')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <h5 class="bg-dark text-danger p-2 rounded">Telefonnummer:</h5>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Mobil:</span>
+                        </div>
+                        <input type="text" id="mobile-number" th:field="*{mobileNumber}" placeholder="Ange ditt mobilnummer" class="form-control"/>
+                    </div>
+                    <div th:if="${#fields.hasErrors('mobileNumber')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('mobileNumber')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Hem:</span>
+                        </div>
+                        <input type="text" id="home-number"  th:field="*{homeNumber}" placeholder="Ange ditt hemtelefonnummer" class="form-control" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('homeNumber')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('homeNumber')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <h5 class="bg-dark text-danger p-2 rounded">Övrigt:</h5>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Github:</span>
+                        </div>
+                        <input class="form-control" type="url" id="github-link" th:field="*{gitHubLink}" placeholder="Ange länk till GitHub konto" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('gitHubLink')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('gitHubLink')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">LinkedIn:</span>
+                        </div>
+                        <input class="form-control" type="url" id="linked-in-url" th:field="*{linkedInURL}" placeholder="Ange länk till LinkedIn profil" />
+                    </div>
+                    <div th:if="${#fields.hasErrors('linkedInURL')}">
+                        <ul class="p-0" >
+                            <li  th:each="err : ${#fields.errors('linkedInURL')}">
+                                <span class="form-error" th:text="${err}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Skicka</button>
+                <button type="reset" class="btn btn-danger">Återställ</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
