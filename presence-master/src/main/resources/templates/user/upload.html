@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="se" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    </div>
+    <nav th:replace="navbar :: navigation"></nav>
+    <div class="container">
+        <div class="card mt-4 mb-3 border-dark">
+            <div th:replace="/user/user-details-header.html :: user-details-header(email = ${user.email})"></div>
+            <div class="card-body">
+                <form th:action="@{/processFile}" method="post" class="form-group" th:object="${form}" enctype="multipart/form-data">
+                    <label class="form-control">Select file</label>
+                    <input class="form-control-file" name="image" id="image" type="file" th:field="*{image}">
+                    <button class="btn btn-sm" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
