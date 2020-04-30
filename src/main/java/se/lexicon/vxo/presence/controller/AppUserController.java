@@ -11,7 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.vxo.presence.dto.app_user.AppUserFormDto;
 import se.lexicon.vxo.presence.dto.app_user.AppUserUpdateForm;
-import se.lexicon.vxo.presence.dto.app_user.UploadImageForm;
+import se.lexicon.vxo.presence.dto.app_user.UploadFileForm;
 import se.lexicon.vxo.presence.entity.role.UserRole;
 import se.lexicon.vxo.presence.entity.user.AppUser;
 import se.lexicon.vxo.presence.security.AppUserPrincipal;
@@ -80,7 +80,7 @@ public class AppUserController {
                     model.addAttribute("form", buildForm(appUserService.findByEmail(email).orElseThrow(appResourceNotFoundException())));
                     return "/user/user-update-form";
                 case "upload":
-                    model.addAttribute("form",new UploadImageForm());
+                    model.addAttribute("form",new UploadFileForm());
                     model.addAttribute("user", appUserService.findByEmail(email).orElseThrow(appResourceNotFoundException()));
                     return "/user/upload";
                 default:

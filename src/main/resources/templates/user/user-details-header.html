@@ -25,10 +25,10 @@
         </li>
         <li class="nav-item">
             <div th:if="${action.equals('upload')}">
-                <a class="nav-link active" href="#">Ladda upp fil</a>
+                <a class="nav-link active" href="#">Ladda upp filer</a>
             </div>
             <div th:if="${!action.equals('upload')}">
-                <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'upload')}">Ladda upp fil</a>
+                <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'upload')}">Ladda upp filer</a>
             </div>
         </li>
     </ul>

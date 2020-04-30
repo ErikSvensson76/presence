@@ -24,6 +24,12 @@
                         <div th:if="${user.profileImage == null}" class="frame mb-2">
                             <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'upload')}">Ladda upp bild</a>
                         </div>
+                        <div  th:if="${user.cv != null}" class="frame mb-2">
+                            <a th:href="@{'/cv/'+${user.cv.id}}">Ditt Cv</a>
+                        </div>
+                        <div th:if="${user.cv == null}" class="frame mb-2">
+                            <a class="nav-link" th:href="@{/users/{email}(email = ${email}, action = 'upload')}">Ladda upp Cv</a>
+                        </div>
                         <div class="d-md-flex flex-row">
                             <div class="col-md-2 bg-light shadow-sm" >
                                 <span>Email:</span>

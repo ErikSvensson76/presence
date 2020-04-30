@@ -9,19 +9,43 @@
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Ladda upp filer</title>
 </head>
 <body>
     </div>
+<!--  Ladda upp "filer"
+        Ladda upp cv - endast i PDF format-->
+
     <nav th:replace="navbar :: navigation"></nav>
     <div class="container">
         <div class="card mt-4 mb-3 border-dark">
             <div th:replace="/user/user-details-header.html :: user-details-header(email = ${user.email})"></div>
             <div class="card-body">
                 <form th:action="@{/processFile}" method="post" class="form-group" th:object="${form}" enctype="multipart/form-data">
-                    <label class="form-control">Select file</label>
-                    <input class="form-control-file" name="image" id="image" type="file" th:field="*{image}">
-                    <button class="btn btn-sm" type="submit">Submit</button>
+                    <div class="custom-file mb-5">
+                        <label for="image" class="h2">Ladda upp profilbild</label><br>
+                        <input name="image" id="image" type="file" th:field="*{image}">
+                    </div>
+                    <div class="list-view">
+                        <ul>
+                            <li>Tillåtna filtyper:</li>
+                            <li>PNG</li>
+                            <li>JPEG</li>
+                            <li>JPG</li>
+                            <li>BMP</li>
+                        </ul>
+                    </div>
+                    <div class="custom-file mb-5">
+                        <label for="cv" class="h2">Ladda upp CV</label><br>
+                        <input name="cv" id="cv" type="file" th:field="*{cv}">
+                    </div>
+                    <div class="list-view">
+                        <ul>
+                            <li>Tillåtna filtyper:</li>
+                            <li>PDF</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
                 </form>
             </div>
         </div>
