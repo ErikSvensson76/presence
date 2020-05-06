@@ -6,6 +6,7 @@ import se.lexicon.vxo.presence.data.AppCalendarDayRepository;
 import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 import se.lexicon.vxo.presence.entity.calendar.AppCalendarDayFactory;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
@@ -21,6 +22,25 @@ public class CalendarServiceImpl extends AppCalendarDayFactory implements Calend
     @Autowired
     public CalendarServiceImpl(AppCalendarDayRepository calendarRepository) {
         this.calendarRepository = calendarRepository;
+    }
+
+    @Override
+    public Set<AppCalendarDay> getMonthWithFillerDates(Month month, int year) {
+        TreeSet<AppCalendarDay> monthDays = calendarRepository.findDaysInMonth(month, year);
+        LocalDate firstDate = monthDays.first().getDate();
+        LocalDate lastDate = monthDays.last().getDate();
+
+        if(firstDate.getDayOfWeek() != DayOfWeek.MONDAY){
+            for(LocalDate date = firstDate; date.getDayOfWeek() != DayOfWeek.SUNDAY; date = date.minusDays(1)){
+                monthDays.add(createAppCalendarDay(date));
+            }
+        }
+        if(lastDate.getDayOfWeek() != DayOfWeek.SUNDAY){
+            for(LocalDate date = lastDate; date.getDayOfWeek() != DayOfWeek.MONDAY; date = date.plusDays(1)){
+                monthDays.add(createAppCalendarDay(date));
+            }
+        }
+        return monthDays;
     }
 
     @Override

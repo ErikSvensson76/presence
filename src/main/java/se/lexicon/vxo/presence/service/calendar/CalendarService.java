@@ -4,10 +4,11 @@ import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public interface CalendarService {
+
+    Set<AppCalendarDay> getMonthWithFillerDates(Month month, int year);
 
     Optional<AppCalendarDay> findByDate(LocalDate date);
 

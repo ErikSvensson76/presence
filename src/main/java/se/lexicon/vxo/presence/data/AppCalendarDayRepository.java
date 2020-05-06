@@ -7,6 +7,7 @@ import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
 
@@ -15,7 +16,7 @@ public interface AppCalendarDayRepository extends JpaRepository<AppCalendarDay, 
     Optional<AppCalendarDay> findByDate(@Param("date") LocalDate date);
 
     @Query("SELECT day FROM AppCalendarDay day WHERE day.month = :month AND day.year = :year")
-    TreeSet<AppCalendarDay> findDaysInMonth(@Param("month") Month month,@Param("year") int year);
+    TreeSet<AppCalendarDay> findDaysInMonth(@Param("month") Month month, @Param("year") int year);
 
     @Query("SELECT day FROM AppCalendarDay day WHERE day.yearWeek = :weekNumber AND day.year = :year")
     TreeSet<AppCalendarDay> findByWeekNumber(@Param("weekNumber") int weekNumber, @Param("year") int year);

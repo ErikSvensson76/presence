@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,6 +52,23 @@ public class CalendarServiceImplTest {
         AppCalendarDay[] asArray = result.stream().toArray(AppCalendarDay[]::new);
         assertEquals(expectedFirstDate, asArray[0].getDate());
         assertEquals(expectedLastDate, asArray[asArray.length-1].getDate());
+    }
+
+    @Test
+    void given_february_and_2020_getMonthWithFillerDates_return_35_days_successfully(){
+        Month february = Month.FEBRUARY;
+        int year = 2020;
+
+        int expectedSize = 35;
+        LocalDate expectedFirstDate = LocalDate.parse("2020-01-27");
+        LocalDate expectedLastDate = LocalDate.parse("2020-03-01");
+
+        Set<AppCalendarDay> result = calendarService.getMonthWithFillerDates(february, year);
+        AppCalendarDay[] resultAsArray = result.stream().toArray(AppCalendarDay[]::new);
+
+        assertEquals(expectedSize, result.size());
+        assertEquals(expectedFirstDate, resultAsArray[0].getDate());
+        assertEquals(expectedLastDate, resultAsArray[resultAsArray.length-1].getDate());
     }
 
     @Test
