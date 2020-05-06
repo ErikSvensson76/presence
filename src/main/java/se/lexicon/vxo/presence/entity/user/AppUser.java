@@ -41,11 +41,15 @@ public class AppUser {
     @JoinColumn(name = "contact_id")
     private ContactInformation contactInformation;
     @OneToOne(
-            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
             fetch = FetchType.LAZY,
             orphanRemoval = true
     )
     private ProfileImage profileImage;
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
+    )
+    private Cv cv;
     private boolean enabled;
 
     public AppUser(String appUserId, String email, String firstName, String lastName, String password, boolean enabled, Collection<AppRole> roles){
@@ -67,6 +71,13 @@ public class AppUser {
     public AppUser() {
     }
 
+    public Cv getCv() {
+        return cv;
+    }
+
+    public void setCv(Cv cv) {
+        this.cv = cv;
+    }
 
     public ProfileImage getProfileImage() {
         return profileImage;
