@@ -1,87 +1,89 @@
 package se.lexicon.vxo.presence.service.calendar;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.lexicon.vxo.presence.data.AppCalendarDayRepository;
 import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 import se.lexicon.vxo.presence.entity.calendar.AppCalendarDayFactory;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.Year;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.time.temporal.TemporalAdjusters;
 import java.util.stream.Stream;
 
-import static se.lexicon.vxo.presence.service.calendar.CalendarService.JPA_IMPL_BEAN_NAME;
+import static java.time.temporal.ChronoUnit.DAYS;
 
-@Service(JPA_IMPL_BEAN_NAME)
-public class CalendarServiceImpl extends AppCalendarDayFactory implements CalendarService {
+@Service
+public class CalendarServiceImpl extends AppCalendarDayFactory implements CalendarService{
 
-    private AppCalendarDayRepository calendarRepository;
-
-    @Autowired
-    public CalendarServiceImpl(AppCalendarDayRepository calendarRepository) {
-        this.calendarRepository = calendarRepository;
+    @Override
+    public AppCalendarDay[] getYear(final int year) {
+        LocalDate start = LocalDate.ofYearDay(year, 1);
+        LocalDate end = LocalDate.ofYearDay((year+1), 1);
+        return generate(start, end);
     }
 
     @Override
-    public Set<AppCalendarDay> getMonthWithFillerDates(Month month, int year) {
-        TreeSet<AppCalendarDay> monthDays = calendarRepository.findDaysInMonth(month, year);
-        LocalDate firstDate = monthDays.first().getDate();
-        LocalDate lastDate = monthDays.last().getDate();
-
-        if(firstDate.getDayOfWeek() != DayOfWeek.MONDAY){
-            for(LocalDate date = firstDate; date.getDayOfWeek() != DayOfWeek.SUNDAY; date = date.minusDays(1)){
-                monthDays.add(createAppCalendarDay(date));
-            }
-        }
-        if(lastDate.getDayOfWeek() != DayOfWeek.SUNDAY){
-            for(LocalDate date = lastDate; date.getDayOfWeek() != DayOfWeek.MONDAY; date = date.plusDays(1)){
-                monthDays.add(createAppCalendarDay(date));
-            }
-        }
-        return monthDays;
+    public AppCalendarDay[] getMonthInYear(Month month, int year) {
+        final LocalDate start = LocalDate.of(year, month, 1);
+        final LocalDate end = LocalDate.of(year, month.plus(1), 1);
+        return generate(start, end);
     }
 
-    @Override
-    public Optional<AppCalendarDay> findByDate(LocalDate date){
-        return calendarRepository.findByDate(date);
-    }
+    private AppCalendarDay[] generate(LocalDate start, LocalDate end){
+        long limit = DAYS.between(start, end);
 
-    @Override
-    public Set<AppCalendarDay> getDaysInMonth(Month month, int year){
-        return calendarRepository.findDaysInMonth(month, year);
-    }
-
-    @Override
-    public Set<AppCalendarDay> getDaysInWeek(int weekNumber, int year){
-        return calendarRepository.findByWeekNumber(weekNumber,year);
-    }
-
-    @Override
-    public Set<AppCalendarDay> findByYear(int year){
-        return calendarRepository.findAllDaysInYear(year);
-    }
-
-    @Override
-    public Set<AppCalendarDay>findByDateBetween(LocalDate start, LocalDate end){
-        return calendarRepository.findByDateBetween(start,end);
-    }
-
-    @Override
-    public boolean createCalendarYear(int year){
-        if(calendarRepository.findByDate(LocalDate.ofYearDay(year, 1)).isPresent()){
-            throw new IllegalArgumentException("Already present in the database " + LocalDate.ofYearDay(year, 1));
-        }
-        List<AppCalendarDay> days = Stream.iterate(LocalDate.ofYearDay(year, 1), date -> date.plusDays(1))
+        return Stream.iterate(start, date -> date.plusDays(1))
+                .limit(limit)
                 .map(super::createAppCalendarDay)
-                .limit(Year.of(year).isLeap() ? 366 : 365)
-                .collect(Collectors.toList());
-
-        days = calendarRepository.saveAll(days);
-        return days.get(0).getDate().equals(LocalDate.ofYearDay(year, 1)) &&
-                days.get(days.size()-1).getDate().equals(LocalDate.of(year,12,31));
+                .toArray(AppCalendarDay[]::new);
     }
+
+    @Override
+    public AppCalendarDay[] getDaysByWeekInYear(int weekNumber, int year) {
+        return Stream.of(getYear(year))
+                .filter(day -> day.getYearWeek() == weekNumber)
+                .toArray(AppCalendarDay[]::new);
+    }
+
+    @Override
+    public AppCalendarDay[] getDatesBetweenInclusive(LocalDate startDate, LocalDate endDate) {
+        return generate(startDate, endDate.plusDays(1));
+    }
+
+    @Override
+    public AppCalendarDay[] getEvenMonthInYear(Month month, int year) {
+        LocalDate firstDay = LocalDate.of(year, month, 1);
+        LocalDate lastDay = LocalDate.of(year, month.plus(1), 1);
+
+        firstDay = firstDay.getDayOfWeek() == DayOfWeek.MONDAY ? firstDay : getLastMonday(firstDay);
+        lastDay = lastDay.getDayOfWeek() == DayOfWeek.SUNDAY ? lastDay : getNextSunday(lastDay);
+
+        return getDatesBetweenInclusive(firstDay, lastDay);
+    }
+
+
+    @Override
+    public AppCalendarDay[] getEvenWeekInYear(int weekNumber, int year) {
+        AppCalendarDay[] weekDays = getDaysByWeekInYear(weekNumber, year);
+        if(weekDays.length == 7 || weekDays.length == 0){
+            return weekDays;
+        }
+        LocalDate first = weekDays[0].getDate();
+        LocalDate last = weekDays[weekDays.length-1].getDate();
+
+        first = first.getDayOfWeek() == DayOfWeek.MONDAY ? first : getLastMonday(first);
+        last = last.getDayOfWeek() == DayOfWeek.SUNDAY ? last : getNextSunday(last);
+
+        return getDatesBetweenInclusive(first, last);
+    }
+
+    public LocalDate getLastMonday(LocalDate date){
+        return date.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+    }
+
+    public LocalDate getNextSunday(LocalDate date) {
+        return date.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+    }
+
+
 }

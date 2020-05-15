@@ -1,79 +1,60 @@
 package se.lexicon.vxo.presence.service.calendar;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
+import se.lexicon.vxo.presence.entity.calendar.AppCalendarDayFactory;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-@AutoConfigureTestDatabase
-@Transactional
-public class CalendarServiceImplTest {
+
+@SpringBootTest(classes = CalendarServiceImpl.class)
+public class CalendarServiceImplTest extends AppCalendarDayFactory {
 
     @Autowired
-    @Qualifier(CalendarService.JPA_IMPL_BEAN_NAME)
     private CalendarService calendarService;
 
     @Test
-    void given_20200101_findByDate_return_success() {
-        LocalDate _20200101 = LocalDate.parse("2020-01-01");
-        Optional<AppCalendarDay> result = calendarService.findByDate(_20200101);
-
-        assertTrue(result.isPresent());
-        assertEquals(_20200101, result.get().getDate());
-    }
-
-    @BeforeEach
-    void setUp() {
-        calendarService.createCalendarYear(2020);
-    }
-
-    @Test
-    void given_february_and_2020_getDaysInMonth_success() {
-        Month february = Month.FEBRUARY;
+    @DisplayName("Given year getYear should return whole year of AppCalendarDay as array")
+    void getYear() {
         int year = 2020;
 
-        int expectedSize = 29;
-        LocalDate expectedLastDate = LocalDate.parse("2020-02-29");
-        LocalDate expectedFirstDate = LocalDate.parse("2020-02-01");
-        Set<AppCalendarDay> result = calendarService.getDaysInMonth(february, year);
+        LocalDate first = LocalDate.parse("2020-01-01");
+        LocalDate last = LocalDate.parse("2020-12-31");
+        int expectedLength = 366;
 
-        assertEquals(expectedSize, result.size());
-        AppCalendarDay[] asArray = result.stream().toArray(AppCalendarDay[]::new);
-        assertEquals(expectedFirstDate, asArray[0].getDate());
-        assertEquals(expectedLastDate, asArray[asArray.length-1].getDate());
+        AppCalendarDay[] result = calendarService.getYear(year);
+
+        assertEquals(expectedLength, result.length);
+        assertEquals(first, result[0].getDate());
+        assertEquals(last, result[result.length-1].getDate());
     }
 
     @Test
-    void given_february_and_2020_getMonthWithFillerDates_return_35_days_successfully(){
-        Month february = Month.FEBRUARY;
+    @DisplayName("Given month getMonthInYear should return correct data")
+    void getMonthInYear() {
+        Month month = Month.FEBRUARY;
         int year = 2020;
 
-        int expectedSize = 35;
-        LocalDate expectedFirstDate = LocalDate.parse("2020-01-27");
-        LocalDate expectedLastDate = LocalDate.parse("2020-03-01");
+        int expectedLength = 29;
+        LocalDate first = LocalDate.parse("2020-02-01");
+        LocalDate last = LocalDate.parse("2020-02-29");
 
-        Set<AppCalendarDay> result = calendarService.getMonthWithFillerDates(february, year);
-        AppCalendarDay[] resultAsArray = result.stream().toArray(AppCalendarDay[]::new);
+        AppCalendarDay[] result = calendarService.getMonthInYear(month, year);
 
-        assertEquals(expectedSize, result.size());
-        assertEquals(expectedFirstDate, resultAsArray[0].getDate());
-        assertEquals(expectedLastDate, resultAsArray[resultAsArray.length-1].getDate());
+        assertEquals(expectedLength, result.length);
+        assertEquals(first, result[0].getDate());
+        assertEquals(last, result[result.length-1].getDate());
     }
 
     @Test
+    @DisplayName("Given week53 and year 2020 getDaysInWeek return correct data")
     void given_week53_and_year_2020_getDaysInWeek_success() {
         int week53 = 53;
         int year = 2020;
@@ -82,15 +63,15 @@ public class CalendarServiceImplTest {
         LocalDate expectedFirstDate = LocalDate.parse("2020-12-28");
         LocalDate expectedLastDate = LocalDate.parse("2020-12-31");
 
-        Set<AppCalendarDay> result = calendarService.getDaysInWeek(week53, year);
+        AppCalendarDay[] result = calendarService.getDaysByWeekInYear(week53, year);
 
-        assertEquals(expectedSize, result.size());
-        AppCalendarDay[] asArray = result.stream().toArray(AppCalendarDay[]::new);
-        assertEquals(expectedFirstDate, asArray[0].getDate());
-        assertEquals(expectedLastDate, asArray[asArray.length-1].getDate());
+        assertEquals(expectedSize, result.length);
+        assertEquals(expectedFirstDate, result[0].getDate());
+        assertEquals(expectedLastDate, result[result.length-1].getDate());
     }
 
     @Test
+    @DisplayName("Given week1 and year 2020 getDaysInWeek return correct data")
     void given_week1_and_year_2020_getDaysInWeek_success() {
         int week1 = 1;
         int year = 2020;
@@ -99,43 +80,61 @@ public class CalendarServiceImplTest {
         LocalDate expectedFirstDate = LocalDate.parse("2020-01-01");
         LocalDate expectedLastDate = LocalDate.parse("2020-01-05");
 
-        Set<AppCalendarDay> result = calendarService.getDaysInWeek(week1, year);
+        AppCalendarDay[] result = calendarService.getDaysByWeekInYear(week1, year);
 
-        assertEquals(expectedSize, result.size());
-        AppCalendarDay[] asArray = result.stream().toArray(AppCalendarDay[]::new);
-        assertEquals(expectedFirstDate, asArray[0].getDate());
-        assertEquals(expectedLastDate, asArray[asArray.length-1].getDate());
+        assertEquals(expectedSize, result.length);
+
+        assertEquals(expectedFirstDate, result[0].getDate());
+        assertEquals(expectedLastDate, result[result.length-1].getDate());
     }
 
     @Test
-    void given_year2020_findByYear_should_return_set_size_366() {
+    @DisplayName("Given LocalDates start and end getDatesBetweenInclusive should return correct data")
+    void getDatesBetweenInclusive() {
+        LocalDate start = LocalDate.parse("2020-05-15");
+        LocalDate end = LocalDate.parse("2020-05-16");
+
+        int expectedLength = 2;
+
+        AppCalendarDay[] result = calendarService.getDatesBetweenInclusive(start, end);
+
+        assertEquals(expectedLength, result.length);
+        assertEquals(start, result[0].getDate());
+        assertEquals(end, result[result.length-1].getDate());
+    }
+
+    @Test
+    @DisplayName("Given month and year getEvenMonthInYear should return correct data")
+    void getEvenMonthInYear() {
+        Month month = Month.JANUARY;
         int year = 2020;
-        int expectedSize = 366;
-        Set<AppCalendarDay> result = calendarService.findByYear(year);
-        assertEquals(expectedSize,result.size());
+
+        LocalDate first = LocalDate.parse("2019-12-30");
+        LocalDate last = LocalDate.parse("2020-02-02");
+        int expectedLength = 35;
+
+        AppCalendarDay[] result = calendarService.getEvenMonthInYear(month, year);
+
+        assertEquals(expectedLength, result.length);
+        assertEquals(first, result[0].getDate());
+        assertEquals(last, result[result.length-1].getDate());
     }
 
     @Test
-    void given_start_and_end_should_return_set_size_29() {
-        LocalDate start = LocalDate.parse("2020-02-01");
-        LocalDate end = LocalDate.parse("2020-02-29");
+    void getEvenWeekInYear() {
+        AppCalendarDay[] expected = {
+                super.createAppCalendarDay(LocalDate.parse("2019-12-30")),
+                super.createAppCalendarDay(LocalDate.parse("2019-12-31")),
+                super.createAppCalendarDay(LocalDate.parse("2020-01-01")),
+                super.createAppCalendarDay(LocalDate.parse("2020-01-02")),
+                super.createAppCalendarDay(LocalDate.parse("2020-01-03")),
+                super.createAppCalendarDay(LocalDate.parse("2020-01-04")),
+                super.createAppCalendarDay(LocalDate.parse("2020-01-05"))
+        };
 
-        int expectedSize = 29;
+        int weekNumber = 1;
+        int year = 2020;
 
-        Set<AppCalendarDay> result = calendarService.findByDateBetween(start,end);
-
-        assertEquals(expectedSize, result.size());
-        AppCalendarDay[] toArray = result.stream().toArray(AppCalendarDay[]::new);
-        assertEquals(start, toArray[0].getDate());
-        assertEquals(end, toArray[toArray.length-1].getDate());
-    }
-
-    @Test
-    void given_invalid_year_createCalendarYear_should_throw_IllegalArgumentException() {
-        int duplicateInvalidYear = 2020;
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> calendarService.createCalendarYear(duplicateInvalidYear)
-        );
+        assertArrayEquals(expected, calendarService.getEvenWeekInYear(weekNumber, year));
     }
 }
