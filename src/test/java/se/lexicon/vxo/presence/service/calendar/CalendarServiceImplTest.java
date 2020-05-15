@@ -3,6 +3,7 @@ package se.lexicon.vxo.presence.service.calendar;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CalendarServiceImplTest {
 
     @Autowired
+    @Qualifier(CalendarService.JPA_IMPL_BEAN_NAME)
     private CalendarService calendarService;
 
     @Test
