@@ -14,7 +14,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Service
+import static se.lexicon.vxo.presence.service.calendar.CalendarService.JPA_IMPL_BEAN_NAME;
+
+@Service(JPA_IMPL_BEAN_NAME)
 public class CalendarServiceImpl extends AppCalendarDayFactory implements CalendarService {
 
     private AppCalendarDayRepository calendarRepository;

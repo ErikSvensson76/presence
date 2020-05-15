@@ -8,6 +8,8 @@ import java.util.*;
 
 public interface CalendarService {
 
+    String JPA_IMPL_BEAN_NAME = "jpa_impl";
+
     Set<AppCalendarDay> getMonthWithFillerDates(Month month, int year);
 
     Optional<AppCalendarDay> findByDate(LocalDate date);
