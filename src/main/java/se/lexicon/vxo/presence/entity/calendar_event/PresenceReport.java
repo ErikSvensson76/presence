@@ -5,6 +5,7 @@ import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 import se.lexicon.vxo.presence.entity.user.AppUser;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -17,12 +18,8 @@ public class PresenceReport {
     )
     private String reportId;
     private Presence presenceStatus;
-    @ManyToOne(
-            cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH},
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name = "date", referencedColumnName = "date")
-    private AppCalendarDay day;
+    private LocalDate date;
+
     @ManyToOne(
             cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH},
             fetch = FetchType.LAZY
@@ -30,8 +27,9 @@ public class PresenceReport {
     @JoinColumn(name = "user_id")
     private AppUser user;
 
-    public PresenceReport(Presence presenceStatus) {
-        this.presenceStatus = presenceStatus;
+    public PresenceReport(Presence presenceStatus, LocalDate date) {
+        setPresenceStatus(presenceStatus);
+        setDate(date);
     }
 
     public PresenceReport(){}
@@ -48,12 +46,12 @@ public class PresenceReport {
         this.presenceStatus = presenceStatus;
     }
 
-    public AppCalendarDay getDay() {
-        return day;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDay(AppCalendarDay day) {
-        this.day = day;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public AppUser getUser() {
@@ -80,10 +78,10 @@ public class PresenceReport {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("PresenceReport{");
-        sb.append("reportId='").append(reportId).append('\'');
-        sb.append(", presenceStatus=").append(presenceStatus);
-        sb.append('}');
-        return sb.toString();
+        return "PresenceReport{" +
+                "reportId='" + reportId + '\'' +
+                ", presenceStatus=" + presenceStatus +
+                ", date=" + date +
+                '}';
     }
 }

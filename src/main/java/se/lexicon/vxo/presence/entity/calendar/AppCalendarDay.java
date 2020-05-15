@@ -2,23 +2,21 @@ package se.lexicon.vxo.presence.entity.calendar;
 
 import org.threeten.extra.YearWeek;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.TextStyle;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Objects;
 
-@Entity
+
 public class AppCalendarDay implements Comparable<AppCalendarDay>{
-    @Id
-    private LocalDate date;
-    private int year;
-    private Month month;
-    private int yearWeek;
-    private DayOfWeek weekDay;
+
+    private final  LocalDate date;
+    private final int year;
+    private final Month month;
+    private final int yearWeek;
+    private final DayOfWeek weekDay;
 
 
     AppCalendarDay(LocalDate date) {
@@ -30,8 +28,6 @@ public class AppCalendarDay implements Comparable<AppCalendarDay>{
 
         yearWeek = YearWeek.from(date).getWeek();
     }
-
-    AppCalendarDay(){}
 
     public LocalDate getDate() {
         return date;

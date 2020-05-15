@@ -4,23 +4,20 @@ import se.lexicon.vxo.presence.entity.calendar.AppCalendarDay;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.*;
 
 public interface CalendarService {
+    AppCalendarDay[] getYear(int year);
+    AppCalendarDay[] getMonthInYear(Month month, int year);
+    AppCalendarDay[] getDaysByWeekInYear(int weekNumber, int year);
+    AppCalendarDay[] getDatesBetweenInclusive(LocalDate startDate, LocalDate endDate);
 
-    String JPA_IMPL_BEAN_NAME = "jpa_impl";
+    /**
+     * Always return full first and last weeks of a month.
+     */
+    AppCalendarDay[] getEvenMonthInYear(Month month, int year);
 
-    Set<AppCalendarDay> getMonthWithFillerDates(Month month, int year);
-
-    Optional<AppCalendarDay> findByDate(LocalDate date);
-
-    Set<AppCalendarDay> getDaysInMonth(Month month, int year);
-
-    Set<AppCalendarDay> getDaysInWeek(int weekNumber, int year);
-
-    Set<AppCalendarDay> findByYear(int year);
-
-    Set<AppCalendarDay>findByDateBetween(LocalDate start, LocalDate end);
-
-    boolean createCalendarYear(int year);
+    /**
+     * Always return a full week with 7 days, even with year breaks.
+     */
+    AppCalendarDay[] getEvenWeekInYear(int weekNumber, int year);
 }
