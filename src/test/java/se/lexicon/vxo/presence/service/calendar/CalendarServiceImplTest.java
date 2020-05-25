@@ -121,6 +121,21 @@ public class CalendarServiceImplTest extends AppCalendarDayFactory {
     }
 
     @Test
+    void getEvenMonthInYear_EndingOnSunday(){
+        Month month = Month.MAY;
+        int year = 2020;
+        int expectedLength = 35;
+
+        LocalDate first = LocalDate.parse("2020-04-27");
+        LocalDate last = LocalDate.parse("2020-05-31");
+
+        AppCalendarDay[] result = calendarService.getEvenMonthInYear(month, year);
+        assertEquals(expectedLength, result.length);
+        assertEquals(first, result[0].getDate());
+        assertEquals(last, result[result.length-1].getDate());
+    }
+
+    @Test
     void getEvenWeekInYear() {
         AppCalendarDay[] expected = {
                 super.createAppCalendarDay(LocalDate.parse("2019-12-30")),

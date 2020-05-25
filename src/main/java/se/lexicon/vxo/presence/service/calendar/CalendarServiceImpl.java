@@ -53,7 +53,7 @@ public class CalendarServiceImpl extends AppCalendarDayFactory implements Calend
     @Override
     public AppCalendarDay[] getEvenMonthInYear(Month month, int year) {
         LocalDate firstDay = LocalDate.of(year, month, 1);
-        LocalDate lastDay = LocalDate.of(year, month.plus(1), 1);
+        LocalDate lastDay = LocalDate.of(year, month.plus(1), 1).minusDays(1);
 
         firstDay = firstDay.getDayOfWeek() == DayOfWeek.MONDAY ? firstDay : getLastMonday(firstDay);
         lastDay = lastDay.getDayOfWeek() == DayOfWeek.SUNDAY ? lastDay : getNextSunday(lastDay);
