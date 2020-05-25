@@ -113,8 +113,11 @@ public class AppUserController {
                 bindingResult.getAllErrors().forEach(System.err::println);
                 return "/user/user-update-form";
             }
-            caller.setUsername(appUserService.update(form).getEmail());
-            return "redirect:/users/"+caller.getUsername();
+            AppUser updated = appUserService.update(form);
+            if(caller.getUsername().equals(email)){
+                caller.setUsername(updated.getEmail());
+            }
+            return "redirect:/users/"+updated.getEmail();
 
         }else {
             throw new AccessDeniedException(ACCESS_DENIED_MSG);
