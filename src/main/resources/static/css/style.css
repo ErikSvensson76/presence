@@ -39,3 +39,16 @@ ul {
     border-radius: 5%;
 
 }
+
+.daysCol {
+  border-bottom: 3px solid black;
+}
+
+.weekRow > :first-child,
+.daysCol > :first-child {
+  border-right: 3px solid black;
+}
+.weekNumber,
+.daysCol > .col {
+  font-weight: bold;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th ="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.css}" />
+    <script defer th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script defer th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+</head>
+<body>
+<nav th:replace="navbar :: navigation"></nav>
+<div class="container">
+    <div class="col-12">
+        <div class="row">
+            <h3 th:text="${thisMonth}"></h3>
+        </div>
+        <div class="row daysCol">
+            <div class="col">
+                <p>Vecka</p>
+            </div>
+            <div class="col">
+                <p>Måndag</p>
+            </div>
+            <div class="col">
+                <p>Tisdag</p>
+            </div>
+            <div class="col">
+                <p>Onsdag</p>
+            </div>
+            <div class="col">
+                <p>Torsdag</p>
+            </div>
+            <div class="col">
+                <p>Fredag</p>
+            </div>
+            <div class="col">
+                <p>Lördag</p>
+            </div>
+            <div class="col">
+                <p>Söndag</p>
+            </div>
+        </div>
+        <!-- ex row -->
+        <div class="row weekRow" th:each="aWeek : ${calendarDaysByWeek}">
+            <div class="col">
+                <p class="weekNumber" th:text="${aWeek.key}"></p>
+            </div>
+            <div class="col" th:each="aDay : ${calendarDaysByWeek.get(aWeek.key)}">
+                <p class="dayNumber" th:text="${aDay.date.dayOfMonth}" th:style="${aDay.month.equals(thisMonth)}? 'font-weight: bold;'"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
